@@ -8,4 +8,4 @@ python:
     - "pypy"
     - "pypy3"
 
-install: "pip install"
+install: "pip install -e ."
