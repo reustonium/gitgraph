@@ -31,6 +31,6 @@ setup(
     ],
     keywords='git graph cli stats',
     install_requires=[
-        'bokeh'
+
     ],
 )
