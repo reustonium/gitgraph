@@ -1,36 +1,74 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+from __future__ import absolute_import, print_function
+
+import io
+import os
+import re
+from glob import glob
+from os.path import basename
+from os.path import dirname
+from os.path import join
+from os.path import relpath
+from os.path import splitext
+
+from setuptools import find_packages
 from setuptools import setup
-from os import path
 
 
-here = path.abspath(path.dirname(__file__))
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
-    long_description = f.read()
+def read(*names, **kwargs):
+    return io.open(
+        join(dirname(__file__), *names),
+        encoding=kwargs.get('encoding', 'utf8')
+    ).read()
+
+
+
 setup(
-    name="gitgraph",
+    name='gitgraph',
     version='0.0.0',
-    description='',
-    long_description=long_description,
-    url='https://github.com/reustonium/gitgraph',
+    license='GPL2',
+    description='Simple graphing for visualizing your git commit data',
+    long_description='%s\n%s' % (read('README.rst'), re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))),
     author='Andy Ruestow',
-    license='GPLv2',
+    author_email='andy@ruestow.me',
+    url='https://github.com/reustonium/gitgraph',
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
+    py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
+    include_package_data=True,
+    zip_safe=False,
     classifiers=[
+        # complete classifier list: http://pypi.python.org/pypi?%3Aaction=list_classifiers
         'Development Status :: 2 - Pre-Alpha',
-        'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
-        'Natural Language :: English',
-        'Operating System :: MacOS',
-        'Operating System :: Microsoft :: Windows',
+        'Operating System :: Unix',
         'Operating System :: POSIX',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: MacOS :: MacOS X',
+        'Programming Language :: Python',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Topic :: Software Development :: Version Control',
-        'Topic :: Utilities'
+        'Programming Language :: Python :: Implementation :: PyPy',
+        'Topic :: Utilities',
     ],
-    keywords='git graph cli stats',
+    keywords=[
+        'git', 'graph', 'visualization'
+    ],
     install_requires=[
-        'bokeh'
+        'click',
     ],
+    extras_require={
+        # eg:
+        #   'rst': ['docutils>=0.11'],
+        #   ':python_version=="2.6"': ['argparse'],
+    },
+    entry_points={
+        'console_scripts': [
+            'gitgraph = gitgraph.cli:main',
+        ]
+    },
 )
