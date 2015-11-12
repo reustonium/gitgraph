@@ -15,6 +15,9 @@ from os.path import splitext
 from setuptools import find_packages
 from setuptools import setup
 
+from os import path
+from io import open
+
 
 def read(*names, **kwargs):
     return io.open(
